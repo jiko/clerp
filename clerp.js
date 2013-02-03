@@ -70,6 +70,11 @@ var showUser = function (user) {
     var anchor = clerper.firstElementChild;
     var img = anchor.firstElementChild;
     img.classList.add('clerped');
+  } else {
+    var clerper = document.getElementById(user.data.id);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
+    img.classList.remove('clerped');
   }
 }
 
