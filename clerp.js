@@ -43,13 +43,14 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
 
 people.on('child_added', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
-    showUser(snapshot.val().data);
+    showUser(snapshot.val());
   }
 });
 
 people.on('child_changed', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
-    showUser(snapshot.val().data);
+    showUser(snapshot.val());
+    if (snapshot.val().online === false)
   } else {
     removeUser(snapshot.val().data.id);
   }
@@ -69,15 +70,18 @@ signout.addEventListener("click", function() {
 var showUser = function (user) {
   var clerps = document.getElementById('clerps');
   var li = document.createElement("li");
-  li.setAttribute('id',user.id);
+  li.setAttribute('id',user.data.id);
   var a = document.createElement("a")
-  a.setAttribute('href',user.link);
+  a.setAttribute('href',user.data.link);
   var img = document.createElement("img");
-  img.src="https://graph.facebook.com/" + user.id + "/picture/?type=large&return_ssl_resources=1";
-  img.setAttribute("title",user.name);
+  img.src="https://graph.facebook.com/" + user.data.id + "/picture/?type=large&return_ssl_resources=1";
+  img.setAttribute("title",user.data.name);
   clerps.appendChild(li);
   li.appendChild(a);
   a.appendChild(img);
+  if (user.online === false) {
+    img.classList.add('clerped');
+  }
 }
 
 var removeUser = function (id) {
