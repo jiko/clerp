@@ -27,10 +27,12 @@ presenceRef.setOnDisconnect(false);
 presenceRef.set(true);
 
 presenceRef.on('value', function(snapshot) {
+  if (snapshot.val() === false) {
     var clerper = document.getElementById(uid);
     var anchor = clerper.firstElementChild;
     var img = anchor.firstElementChild;
-    img.classList.toggle('clerped');
+    img.classList.add('clerped');
+  }
 });
 
 people.on('child_added', function(snapshot) {
