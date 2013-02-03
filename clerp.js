@@ -21,21 +21,6 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
       presenceRef.onDisconnect().set(false);
       // Now, mark myself as online.
       presenceRef.set(true);
-      presenceRef.on('value', function(snapshot) {
-        if (snapshot.val() === false) {
-          var clerper = document.getElementById(uid);
-          var anchor = clerper.firstElementChild;
-          var img = anchor.firstElementChild;
-          img.classList.add('clerped');
-        } else {
-          var clerper = document.getElementById(uid);
-          if (clerper !== null) {
-            var anchor = clerper.firstElementChild;
-            var img = anchor.firstElementChild;
-            img.classList.remove('clerped');
-          }
-        }
-      });
     } else {
       console.log("not logged in");
     }
@@ -67,18 +52,23 @@ signout.addEventListener("click", function() {
 });
 
 var showUser = function (user) {
-  var clerps = document.getElementById('clerps');
-  var li = document.createElement("li");
-  li.setAttribute('id',user.data.id);
-  var a = document.createElement("a")
-  a.setAttribute('href',user.data.link);
-  var img = document.createElement("img");
-  img.src="https://graph.facebook.com/" + user.data.id + "/picture/?type=large&return_ssl_resources=1";
-  img.setAttribute("title",user.data.name);
-  clerps.appendChild(li);
-  li.appendChild(a);
-  a.appendChild(img);
+  if (document.getElementbyId(user.data.id) === null) {
+    var clerps = document.getElementById('clerps');
+    var li = document.createElement("li");
+    li.setAttribute('id',user.data.id);
+    var a = document.createElement("a")
+    a.setAttribute('href',user.data.link);
+    var img = document.createElement("img");
+    img.src="https://graph.facebook.com/" + user.data.id + "/picture/?type=large&return_ssl_resources=1";
+    img.setAttribute("title",user.data.name);
+    clerps.appendChild(li);
+    li.appendChild(a);
+    a.appendChild(img);
+  }
   if (user.online === false) {
+    var clerper = document.getElementById(uid);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
     img.classList.add('clerped');
   }
 }
