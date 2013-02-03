@@ -78,9 +78,11 @@ presenceRef.on('value', function(snapshot) {
     img.classList.add('clerped');
   } else {
     var clerper = document.getElementById(uid);
-    var anchor = clerper.firstElementChild;
-    var img = anchor.firstElementChild;
-    img.classList.remove('clerped');
+    if (clerper !== null) {
+      var anchor = clerper.firstElementChild;
+      var img = anchor.firstElementChild;
+      img.classList.remove('clerped');
+    }
   }
 });
 
