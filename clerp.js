@@ -20,19 +20,17 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
     }
 });
 
-var presenceRef = people.child(uid+'/online');
-// Make sure if I lose my connection I am marked as offline.
-presenceRef.setOnDisconnect(false);
-// Now, mark myself as online.
-presenceRef.set(true);
-
 presenceRef.on('value', function(snapshot) {
   if (snapshot.val() === false) {
     var clerper = document.getElementById(uid);
     var anchor = clerper.firstElementChild;
     var img = anchor.firstElementChild;
     img.classList.add('clerped');
-  }
+  } else {
+    var clerper = document.getElementById(uid);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
+    img.classList.remove('clerped');
 });
 
 people.on('child_added', function(snapshot) {
@@ -78,3 +76,9 @@ var removeUser = function (id) {
   var user = document.getElementById(id);
   user.parentNode.removeChild(user);
 }
+
+var presenceRef = people.child(uid+'/online');
+// Make sure if I lose my connection I am marked as offline.
+presenceRef.onDisconnect().set(false);
+// Now, mark myself as online.
+presenceRef.set(true);
