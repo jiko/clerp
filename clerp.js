@@ -66,7 +66,7 @@ var showUser = function (user) {
     a.appendChild(img);
   }
   if (user.online === false) {
-    var clerper = document.getElementById(uid);
+    var clerper = document.getElementById(user.data.id);
     var anchor = clerper.firstElementChild;
     var img = anchor.firstElementChild;
     img.classList.add('clerped');
