@@ -20,6 +20,19 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
     }
 });
 
+var presenceRef = people.child(uid+'/online');
+// Make sure if I lose my connection I am marked as offline.
+presenceRef.setOnDisconnect(false);
+// Now, mark myself as online.
+presenceRef.set(true);
+
+presenceRef.on('value', function(snapshot) {
+    var clerper = document.getElementById(uid);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
+    img.classList.toggle('clerped');
+});
+
 people.on('child_added', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
     showUser(snapshot.val().data);
