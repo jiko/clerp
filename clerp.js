@@ -21,6 +21,21 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
       presenceRef.onDisconnect().set(false);
       // Now, mark myself as online.
       presenceRef.set(true);
+      presenceRef.on('value', function(snapshot) {
+        if (snapshot.val() === false) {
+          var clerper = document.getElementById(uid);
+          var anchor = clerper.firstElementChild;
+          var img = anchor.firstElementChild;
+          img.classList.add('clerped');
+        } else {
+          var clerper = document.getElementById(uid);
+          if (clerper !== null) {
+            var anchor = clerper.firstElementChild;
+            var img = anchor.firstElementChild;
+            img.classList.remove('clerped');
+          }
+        }
+      });
     } else {
       console.log("not logged in");
     }
@@ -69,20 +84,3 @@ var removeUser = function (id) {
   var user = document.getElementById(id);
   user.parentNode.removeChild(user);
 }
-
-presenceRef.on('value', function(snapshot) {
-  if (snapshot.val() === false) {
-    var clerper = document.getElementById(uid);
-    var anchor = clerper.firstElementChild;
-    var img = anchor.firstElementChild;
-    img.classList.add('clerped');
-  } else {
-    var clerper = document.getElementById(uid);
-    if (clerper !== null) {
-      var anchor = clerper.firstElementChild;
-      var img = anchor.firstElementChild;
-      img.classList.remove('clerped');
-    }
-  }
-});
-
