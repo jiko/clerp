@@ -1,7 +1,22 @@
 var clerp = new Firebase('https://jiko.firebaseio.com/');
-var authClient = new FirebaseAuthClient(clerp);
 var people = clerp.child("people");
 var uid;
+
+var authClient = new FirebaseAuthClient(clerp, function(error,user) {
+    if (!error) {
+      uid = user.id;
+      var userRef = people.child(user.id);
+      userRef.once('value', function(snapshot) {
+        if (snapshot.val() === null) {
+          userRef.set({data: user, loggedIn: true});
+        } else {
+          userRef.update({data: user, loggedIn: true});
+        }
+      });
+    } else {
+      console.log(error);
+    }
+});
 
 people.on('child_added', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
@@ -19,26 +34,13 @@ people.on('child_changed', function(snapshot) {
 
 var signin = document.getElementById("signin");
 signin.addEventListener("click", function() {
-  authClient.login('facebook', function(error, token, user) {
-    if (!error) {
-      uid = user.id;
-      var userRef = people.child(user.id);
-      userRef.once('value', function(snapshot) {
-        if (snapshot.val() === null) {
-          userRef.set({data: user, loggedIn: true});
-        } else {
-          userRef.update({data: user, loggedIn: true});
-        }
-      });
-    } else {
-      console.log(error);
-    }
-  });
+  authClient.login('facebook', {rememberMe: true});
 });
 
 var signout = document.getElementById("signout");
 signout.addEventListener("click", function() {
-  people.child(uid).update({loggedIn:false});
+    people.child(uid).update({loggedIn:false});
+    authClient.logout();
 });
 
 var showUser = function (user) {
