@@ -20,20 +20,6 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
     }
 });
 
-presenceRef.on('value', function(snapshot) {
-  if (snapshot.val() === false) {
-    var clerper = document.getElementById(uid);
-    var anchor = clerper.firstElementChild;
-    var img = anchor.firstElementChild;
-    img.classList.add('clerped');
-  } else {
-    var clerper = document.getElementById(uid);
-    var anchor = clerper.firstElementChild;
-    var img = anchor.firstElementChild;
-    img.classList.remove('clerped');
-  }
-});
-
 people.on('child_added', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
     showUser(snapshot.val().data);
@@ -83,3 +69,18 @@ var presenceRef = people.child(uid+'/online');
 presenceRef.onDisconnect().set(false);
 // Now, mark myself as online.
 presenceRef.set(true);
+
+presenceRef.on('value', function(snapshot) {
+  if (snapshot.val() === false) {
+    var clerper = document.getElementById(uid);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
+    img.classList.add('clerped');
+  } else {
+    var clerper = document.getElementById(uid);
+    var anchor = clerper.firstElementChild;
+    var img = anchor.firstElementChild;
+    img.classList.remove('clerped');
+  }
+});
+
