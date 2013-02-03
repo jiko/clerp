@@ -15,6 +15,11 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
           userRef.update({data: user, loggedIn: true});
         }
       });
+      var presenceRef = userRef.child('online');
+      // Make sure if I lose my connection I am marked as offline.
+      presenceRef.onDisconnect().set(false);
+      // Now, mark myself as online.
+      presenceRef.set(true);
     } else {
       console.log("not logged in");
     }
@@ -63,12 +68,6 @@ var removeUser = function (id) {
   var user = document.getElementById(id);
   user.parentNode.removeChild(user);
 }
-
-var presenceRef = people.child(uid+'/online');
-// Make sure if I lose my connection I am marked as offline.
-presenceRef.onDisconnect().set(false);
-// Now, mark myself as online.
-presenceRef.set(true);
 
 presenceRef.on('value', function(snapshot) {
   if (snapshot.val() === false) {
