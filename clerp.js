@@ -31,6 +31,7 @@ presenceRef.on('value', function(snapshot) {
     var anchor = clerper.firstElementChild;
     var img = anchor.firstElementChild;
     img.classList.remove('clerped');
+  }
 });
 
 people.on('child_added', function(snapshot) {
