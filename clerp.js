@@ -52,7 +52,7 @@ signout.addEventListener("click", function() {
 });
 
 var showUser = function (user) {
-  if (document.getElementbyId(user.data.id) === null) {
+  if (document.getElementById(user.data.id) === null) {
     var clerps = document.getElementById('clerps');
     var li = document.createElement("li");
     li.setAttribute('id',user.data.id);
