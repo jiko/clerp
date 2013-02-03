@@ -50,7 +50,6 @@ people.on('child_added', function(snapshot) {
 people.on('child_changed', function(snapshot) {
   if (snapshot.val().loggedIn === true) {
     showUser(snapshot.val());
-    if (snapshot.val().online === false)
   } else {
     removeUser(snapshot.val().data.id);
   }
