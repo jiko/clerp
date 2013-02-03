@@ -2,8 +2,10 @@ var clerp = new Firebase('https://jiko.firebaseio.com/');
 var people = clerp.child("people");
 var uid;
 
-var authClient = new FirebaseAuthClient(clerp, function(error,user) {
-    if (!error) {
+var authClient = new FirebaseAuthClient(clerp, function(error, user) {
+    if (error) {
+        console.log(error);
+    } else if (user) {
       uid = user.id;
       var userRef = people.child(user.id);
       userRef.once('value', function(snapshot) {
@@ -14,7 +16,7 @@ var authClient = new FirebaseAuthClient(clerp, function(error,user) {
         }
       });
     } else {
-      console.log(error);
+      console.log("not logged in");
     }
 });
 
