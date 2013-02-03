@@ -1,7 +1,8 @@
-Manage presence. 
-Highlight people who are on the page, 
-grey out people who have the page open but have left the page, 
-remove people who have disconnected entirely or who logout explicitly. 
-Add buttons for login and logout. Links with styling changes work for now. 
-Add Twitter support.
-Add indications in title text of what the opacities mean (clerping, clerped).
+TODO
+====
+
+- Make the site self-explanatory through design; revise explanation
+- Add button for login/logout.
+- Add Twitter support.
+- Add indications of what the opacities mean (clerping, clerped) in title.
+- Hide Clerps from those not signed-in
