@@ -1,6 +1,7 @@
 var clerp = new Firebase('https://jiko.firebaseio.com/');
 var people = clerp.child("people");
 var uid;
+var presenceRef;
 
 var authClient = new FirebaseAuthClient(clerp, function(error, user) {
     if (error) {
@@ -15,7 +16,7 @@ var authClient = new FirebaseAuthClient(clerp, function(error, user) {
           userRef.update({data: user, loggedIn: true});
         }
       });
-      var presenceRef = userRef.child('online');
+      presenceRef = userRef.child('online');
       // Make sure if I lose my connection I am marked as offline.
       presenceRef.onDisconnect().set(false);
       // Now, mark myself as online.
